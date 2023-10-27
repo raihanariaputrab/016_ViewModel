@@ -1,6 +1,5 @@
 package com.example.praktikum5.ui.theme
 
-import androidx.compose.runtime.currentRecomposeScope
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -22,6 +21,8 @@ class CobaViewModel : ViewModel() {
         private set
     var Email: String by mutableStateOf("")
         private set
+
+
     private val _uiState = MutableStateFlow(DataForm())
     val uiState: StateFlow<DataForm> = _uiState.asStateFlow()
 
@@ -31,6 +32,7 @@ class CobaViewModel : ViewModel() {
         jenisKl = jk;
         Alamat = almt;
         Email = email;
+
     }
 
     fun setJenisK(pilihJK: String){

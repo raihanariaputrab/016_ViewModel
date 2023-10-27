@@ -1,7 +1,6 @@
 package com.example.praktikum4
 
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -68,6 +67,7 @@ class MainActivity : ComponentActivity() {
 fun TampilLayout(
     modifier: Modifier = Modifier
 ){
+
     Card (
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
@@ -77,6 +77,7 @@ fun TampilLayout(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(20.dp)
         ){
+            Text(text = "Register", fontSize = 15.sp, fontWeight = FontWeight.Thin)
             Text(text = "Create Your Account", fontSize = 25.sp, fontWeight = FontWeight.Bold)
             TampilFrom()
         }
@@ -91,7 +92,7 @@ fun SelectJK(
     oneSelectionChanged: (String) -> Unit = {}
 ){
     var selectedValue by rememberSaveable { mutableStateOf("") }
-    Column (modifier = Modifier.padding(16.dp)) {
+    Row (modifier = Modifier.padding(16.dp)) {
         options.forEach{ item ->
             Row (
                 modifier = Modifier.selectable(
@@ -122,7 +123,7 @@ fun SelectStatus(
     oneSelectionChanged: (String) -> Unit = {}
 ){
     var selectedValue by rememberSaveable { mutableStateOf("") }
-    Column (modifier = Modifier.padding(16.dp)) {
+    Row (modifier = Modifier.padding(16.dp)) {
         options.forEach{ item ->
             Row (
                 modifier = Modifier.selectable(
@@ -214,15 +215,12 @@ fun TampilFrom(cobaViewModel: CobaViewModel = viewModel()){
             cobaViewModel.insertData(textNama, textTlp, dataForm.sex, textAlmt, textEmail)
         }
     )
-
-
-
     { Text(
         text = stringResource(R.string.submit),
         fontSize = 16.sp) }
-    Spacer(
-        modifier = Modifier.height(100.dp))
+
     TextHasil(
+
         namanya = cobaViewModel.namaUsr ,
         telponnya = cobaViewModel.noTelp,
         jenisnya = cobaViewModel.jenisKl,
@@ -250,6 +248,7 @@ fun TextHasil(namanya: String, telponnya: String, jenisnya: String, Alamatnya: S
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp))
         Text(text = "Email : " + Emailnya,
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp))
+
         
     }
 }
