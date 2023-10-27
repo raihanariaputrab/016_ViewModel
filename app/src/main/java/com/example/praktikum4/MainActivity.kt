@@ -77,7 +77,7 @@ fun TampilLayout(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(20.dp)
         ){
-            Text(text = "Create Your Account", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            Text(text = "Create Your Account", fontSize = 25.sp, fontWeight = FontWeight.Bold)
             TampilFrom()
         }
     }
@@ -87,6 +87,37 @@ fun TampilLayout(
 
 @Composable
 fun SelectJK(
+    options: List<String>,
+    oneSelectionChanged: (String) -> Unit = {}
+){
+    var selectedValue by rememberSaveable { mutableStateOf("") }
+    Column (modifier = Modifier.padding(16.dp)) {
+        options.forEach{ item ->
+            Row (
+                modifier = Modifier.selectable(
+                    selected = selectedValue == item,
+                    onClick = {
+                        selectedValue = item
+                        oneSelectionChanged(item)
+                    }
+                ),
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                RadioButton(
+                    selected = selectedValue == item,
+                    onClick = {
+                        selectedValue = item
+                        oneSelectionChanged(item)
+                    }
+                )
+                Text(item)
+            }
+        }
+    }
+}
+
+@Composable
+fun SelectStatus(
     options: List<String>,
     oneSelectionChanged: (String) -> Unit = {}
 ){
@@ -151,16 +182,7 @@ fun TampilFrom(cobaViewModel: CobaViewModel = viewModel()){
             textTlp = it
         }
     )
-    OutlinedTextField(
-        value = textAlmt,
-        singleLine = true,
-        shape = MaterialTheme.shapes.large,
-        modifier = Modifier.fillMaxWidth(),
-        label = { Text(text = "Alamat") },
-        onValueChange = {
-            textAlmt = it
-        }
-    )
+
     OutlinedTextField(
         value = textEmail,
         singleLine = true,
@@ -173,12 +195,29 @@ fun TampilFrom(cobaViewModel: CobaViewModel = viewModel()){
     )
     SelectJK(options = jenis.map { id -> context.resources.getString(id) },
         oneSelectionChanged = { cobaViewModel.setJenisK(it) })
+    SelectStatus(options = status.map { id -> context.resources.getString(id) },
+        oneSelectionChanged = { cobaViewModel.setStatus(it) })
+
+    OutlinedTextField(
+        value = textAlmt,
+        singleLine = true,
+        shape = MaterialTheme.shapes.large,
+        modifier = Modifier.fillMaxWidth(),
+        label = { Text(text = "Alamat") },
+        onValueChange = {
+            textAlmt = it
+        }
+    )
     Button(
         modifier = Modifier.fillMaxWidth(),
         onClick = {
             cobaViewModel.insertData(textNama, textTlp, dataForm.sex, textAlmt, textEmail)
         }
-    ) { Text(
+    )
+
+
+
+    { Text(
         text = stringResource(R.string.submit),
         fontSize = 16.sp) }
     Spacer(
